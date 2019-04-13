@@ -50,6 +50,14 @@ As a result, if the currently used PCR bank is switched all keys that have been 
 
 Before switching PCR banks you should suspend or disable BitLocker – or have your recovery key ready. For steps on how to switch PCR banks on your PC, you should contact your OEM or UEFI vendor.
 
+## How can I detect which PCR bank is used by Windows?
+
+The PCR bank that is used by Windows depends on the support provided by the TPM, the UEFI firmware, and Windows itself. If a SHA-256 PCR bank is active in the TPM, UEFI is extending its measurements into that bank, and a crypto agile measured boot log is available from UEFI, then Windows will pick SHA-256 bank to use for Windows measurements. Windows protocols this decision in a registry key:
+
+\[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\IntegrityServices\] TPMDigestAlgID.
+
+The values used in this registry key are defined by TCG in the [TPM algorithm registry](https://trustedcomputinggroup.org/resource/tcg-algorithm-registry/). A value of 4 means that the SHA1 PCR bank is used. A value of 12 (0xB) means that the SHA-256 bank is used. 
+
 ## Related topics
 
 - [Trusted Platform Module](trusted-platform-module-top-node.md) (list of topics)
